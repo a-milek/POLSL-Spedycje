@@ -10,15 +10,17 @@
 
 using namespace std;
 
-
-
-
 ostream out(nullptr);
+/*!
+
+    structure of cities
+*/
+
 struct Node{
-    int magic; // żeby sprawdzić czy nody są poprawne .Numer do debugera
-    string name;
-    int distance_from_begining;
-    Node* poprzednik;
+    int magic; /*! for debugging purpouses*/
+    string name; /*!name of the city*/
+    int distance_from_begining; /*!shortest distance from the starting point*/
+    Node* poprzednik; /*!node that comes before */
 
 
     Node(){
@@ -27,7 +29,11 @@ struct Node{
         magic=0x44332211;
     }
 };
-
+/*!
+   Comparator
+   required for the nodes set
+   It puts nodes in order based on distance and name
+*/
 struct Node_comparator {
     int ile_razy;
     bool operator() (const Node* a, const Node* b){
@@ -43,16 +49,19 @@ struct Node_comparator {
         return false;
     }
 };
+/*!
+    structure of routes-paths between nodes
+*/
 struct Route{
-    Node* start;
-    Node* target;
-    int distance;
+    Node* start; /*!Node that starts the route*/
+    Node* target;/*!Node that ends the route*/
+    int distance; /*!distance between start and target Nodes*/
 
 };
 
-
+/*!Unordered map- part of node factory*/
 static unordered_map<string,Node*> node_factory_map;
-//node factory
+
 /*!
     Producing nodes
 
@@ -92,8 +101,9 @@ static void clear_all_nodes(){
     node_factory_map.clear();
 }
 
-
+/*!set consisting of nodes */
 static set <Node*,Node_comparator> nodes;
+/*!vector consisting of routes*/
 static vector<Route> routes;
 
 /*!
@@ -102,6 +112,7 @@ static vector<Route> routes;
     Function is reading the input file and importing city names and distances. It also checks if nodes have content and adding nodes to the "nodes" set.
     And routes to the "routes" vector
     @param file input file
+    @param start_point starting point from which the distance_from_beginning is measured
     @return void
 
 */
@@ -228,9 +239,9 @@ string output_file_name;
 
 int main(int argc, char *argv[])
 {
-    string output_file_name;
-    string input_file_name;
-    string start_point;
+    string output_file_name; /*!name of the output file*/
+    string input_file_name; /*!name of the input file*/
+    string start_point;     /*!starting point from which the distance_from_beginning is measured*/
     out.rdbuf(cout.rdbuf());
 
     if(argc<6){
